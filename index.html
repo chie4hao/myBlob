@@ -95,12 +95,12 @@
 
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="切四豪的博客">
+<meta property="og:title" content="chie4的博客">
 <meta property="og:url" content="https://www.chie4.com/index.html">
-<meta property="og:site_name" content="切四豪的博客">
+<meta property="og:site_name" content="chie4的博客">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="切四豪的博客">
+<meta name="twitter:title" content="chie4的博客">
 
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>切四豪的博客</title>
+  <title>chie4的博客</title>
   
 
 
@@ -167,12 +167,12 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">切四豪的博客</span>
+        <span class="site-title">chie4的博客</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <h1 class="site-subtitle" itemprop="description">前端 ai</h1>
       
   </div>
 
@@ -274,6 +274,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.chie4.com/2017/08/22/current/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chie_4">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chie4的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/22/current/" itemprop="url">Electron+react+redux开发桌面app中遇到的一些问题记录</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-22T22:59:45+08:00">
+                2017-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/22/current/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/22/current/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;&emsp;由于自身需要最近开发了一个图片下载工具，底层使用nodejs编写，通过构造了一个Promise队列控制了并发请求数量。稳定使用了一段时间后还是觉得缺点什么，正好最近也在学react相关的知识，那就干脆用Electron结合react和一些新技术做个界面吧！而且由于Electron的跨平台特性，也利于将我自己的写的c++、javascript工具和库分享给更多的人使用。</p>
+<p>&emsp;&emsp;学习过程中参考一些比较有名的模板，比如<a href="https://github.com/chentsulin/electron-react-boilerplate" target="_blank" rel="external">electron-react-boilerplate</a>，不过这个作者最近更新维护的频率明显下降了不少。在使用这个项目构建时也是遇到不少深坑，比如有次react-router版本没装对，结果花了一下午才找到问题。</p>
+<p>&emsp;&emsp;这个模板的webpack构建代码还是比较稳定的，但在react和redux这一层还是存在不少小问题。 当你的项目中只引用一个外部库时很难出现bug，尤其像redux和react这种成熟项目，经过大量的版本迭代，已经很难在里面找出bug了。但当你同时引用很多个并且相互依赖的库时，各种问题就接踵而至了。你很难界定出现的bug是源自哪个库，因为从多个库里都可以修复这个问题。</p>
+<p>&emsp;&emsp;和大部分人一样，我这次选择react全家桶，react-router、react-redux、react-router-redux等等。下面我把我在electron开发中遇到的问题列举一下，我相信很多人都会遇到类似的问题。</p>
+<p>&emsp;&emsp;</p>
+<h2 id="使用-lt-Switch-gt-标签时，使用history-goForward-和history-goBack-路由跳转不正确"><a href="#使用-lt-Switch-gt-标签时，使用history-goForward-和history-goBack-路由跳转不正确" class="headerlink" title="使用&lt;Switch&gt;标签时，使用history.goForward()和history.goBack()路由跳转不正确"></a>使用<code>&lt;Switch&gt;</code>标签时，使用history.goForward()和history.goBack()路由跳转不正确</h2><p>详细问题见这里<a href="https://codesandbox.io/s/G6nWE3X0r" target="_blank" rel="external">code</a></p>
+<p>&emsp;&emsp;这个问题只会在你同时使用react-router的<code>&lt;Switch&gt;</code>和react-router-redux时出现。当你按下后退按钮时，Store里的路由地址是正确，然而页面却没有跳转，而且每次你按下后退，你都会跳转到正确地址的下一个地址。就仿佛路由地址在Switch这一层阻塞了一样，并没有及时的传递下来。</p>
+<p>&emsp;&emsp;其实这个问题解决方法也很简单，把正确的路由地址传递给<code>&lt;Switch&gt;</code>标签即可，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const mapStateToProps = state =&gt; (&#123;</div><div class="line">  location: state.router.location</div><div class="line">&#125;);</div><div class="line"></div><div class="line">const ConnectedSwitch = connect(mapStateToProps)(Switch);</div><div class="line">// 将这个ConnectedSwitch替换之前的Switch</div></pre></td></tr></table></figure></p>
+<p>如果你有兴趣了解这个问题的由来，请参考Switch的这一段源码<a href="https://github.com/ReactTraining/react-router/blob/master/packages/react-router/modules/Route.js#L56" target="_blank" rel="external">https://github.com/ReactTraining/react-router/blob/master/packages/react-router/modules/Route.js#L56</a></p>
+<p>&emsp;&emsp;</p>
+<h2 id="使用react-router的history模块时，Browserify和HashHistory初始路径不一致"><a href="#使用react-router的history模块时，Browserify和HashHistory初始路径不一致" class="headerlink" title="使用react-router的history模块时，Browserify和HashHistory初始路径不一致"></a>使用react-router的history模块时，<code>Browserify</code>和<code>HashHistory</code>初始路径不一致</h2><p>&emsp;&emsp;在使用electron-react-boilerplate构建项目时，发现<code>Browserify</code>和<code>HashHistory</code>初始路径不一致，使用<code>Browserify</code>时点击前进后退按钮跳转到错误的路由地址。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const <span class="built_in">history</span> = createHashHistory();</div><div class="line">console.log(history.location.pathname);     </div><div class="line">//  <span class="string">"/"</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const <span class="built_in">history</span> = createBrowserHistory();</div><div class="line">console.log(history.location.pathname);     </div><div class="line">//  <span class="string">"/C:/Users/asdf/Documents/GitHub/electron-react-boilerplate/app/app.html"</span></div><div class="line">//  This path matches the route <span class="string">"/C:/"</span></div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这里注意到BrowserHistory创建的默认地址不是’/‘，而是electron应用启动的载入页面的文件路径！这里提供一个简单的解决方法，创建BrowserHistory时把根路径设置为相应路径即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const <span class="built_in">history</span> = createBrowserHistory(&#123;</div><div class="line">  basename: window.location.pathname</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>&emsp;&emsp;暂时先写这两条，遇到其他问题之后再补充。过几天可能会写一点redux相关的文章。不得不说redux想优化到极致真是太难了，要填的坑超多，强迫症用这个简直想撞墙（摊手）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://www.chie4.com/2017/08/14/近期计划/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -283,7 +450,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="切四豪的博客">
+      <meta itemprop="name" content="chie4的博客">
     </span>
 
     
@@ -291,9 +458,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/14/近期计划/" itemprop="url">近期计划</a></h1>
+                <a class="post-title-link" href="/2017/08/14/近期计划/" itemprop="url">近期计划</a></h2>
         
 
         <div class="post-meta">
@@ -447,7 +614,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="切四豪的博客">
+      <meta itemprop="name" content="chie4的博客">
     </span>
 
     
@@ -455,9 +622,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/14/nginx-test/" itemprop="url">建博了？</a></h1>
+                <a class="post-title-link" href="/2017/08/14/nginx-test/" itemprop="url">建博了？</a></h2>
         
 
         <div class="post-meta">
@@ -601,7 +768,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="切四豪的博客">
+      <meta itemprop="name" content="chie4的博客">
     </span>
 
     
@@ -609,9 +776,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/13/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2017/08/13/hello-world/" itemprop="url">Hello World</a></h2>
         
 
         <div class="post-meta">
@@ -749,14 +916,14 @@
           <p class="site-author-name" itemprop="name">chie_4</p>
            
               <p class="site-description motion-element" itemprop="description"></p>
-          
+           
         </div>
         <nav class="site-state motion-element">
 
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -767,7 +934,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -778,7 +945,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -999,6 +1166,21 @@
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 
