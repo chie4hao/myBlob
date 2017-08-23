@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.chie4.com/about/index.html</loc>
+    
+    <lastmod>2017-08-23T17:33:07.662Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.chie4.com/2017/08/22/current/</loc>
     
     <lastmod>2017-08-22T20:16:23.895Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>https://www.chie4.com/2017/08/13/hello-world/</loc>
     
     <lastmod>2017-08-14T15:51:37.523Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.chie4.com/about/index.html</loc>
-    
-    <lastmod>2017-08-13T14:11:55.934Z</lastmod>
     
   </url>
   
